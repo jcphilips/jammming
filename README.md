@@ -5,6 +5,11 @@ A Spotify Playlist creator based in React.
 ## TODO
 
 - [ ] Create base components
-- [ ] Create base container
+- [x] Create base container
 - [ ] Create wireframe
 - [ ] Research Spotify API
+- [x] SearchBar
+- [ ] SearchResults
+- [ ] Playlist
+- [ ] Tracklist
+- [ ] Track

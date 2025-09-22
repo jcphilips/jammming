@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import SearchComponent from '../components/SearchComponent.jsx'
 import Track from "../components/Track.jsx";
+
 const ENDPOINT = 'https://api.spotify.com'
 
 export default function JammmingContainer() {
@@ -9,6 +10,7 @@ export default function JammmingContainer() {
   const [input, setInput] = useState('');
   const [accessToken, setAccessToken] = useState({});
   const [songResults, setSongResults] = useState([]);
+  const [playlistSongs, setPlaylistSongs] = useState([]);
 
 
   useEffect(() => {
@@ -57,9 +59,9 @@ export default function JammmingContainer() {
       const itemResults = resultsJSON.tracks.items;
       const newSongResults = itemResults.map(track => ({
         name: track.name,
-        artist: track.artist[0].name,
+        artist: track.artists[0].name,
         album: track.album.name,
-        key: track.id,
+        id: track.id,
         albumArt: track.album.images[0].url
       }));
 
@@ -72,7 +74,12 @@ export default function JammmingContainer() {
   return (
     <>
       <SearchComponent input={input} handleInput={onInputHandler} handleSubmit={onSubmitHandler} />
-      {songResults.map(song => <Track key={song.id} trackTitle={song.name} album={song.album} albumArt={song.albumArt} artist={song.artist} />)}
+      <div className="searchResults">
+        {songResults.map(song => <Track key={song.id} trackTitle={song.name} album={song.album} albumArt={song.albumArt} artist={song.artist} />)}
+      </div>
+      <div className="playlist">
+        {playlistSongs.map(song => <Track key={song.id} trackTitle={song.name} album={song.album} albumArt={song.albumArt} artist={song.artist} />)}
+      </div>
     </>
   )
 }

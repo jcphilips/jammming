@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import SearchComponent from '../components/SearchComponent.jsx'
+import Track from "../components/Track.jsx";
 const ENDPOINT = 'https://api.spotify.com'
 
 export default function JammmingContainer() {
 
   const [input, setInput] = useState('');
   const [accessToken, setAccessToken] = useState({});
+  const [songResults, setSongResults] = useState([]);
 
 
   useEffect(() => {
@@ -36,20 +38,32 @@ export default function JammmingContainer() {
 
   const onSubmitHandler = event => {
     event.preventDefault();
-    if (event.target.length !== 0) {
-
+    if (input.length !== 0) {
+      const cleaned = input.replaceAll(' ', '+');
+      retrieveResults(cleaned);
     }
   }
 
   // Retreive results from Spotify search
   const retrieveResults = async (input) => {
-    const songResults = [];
     try {
-      const response = await fetch(`${SEARCH_ENDPOINT}?q=${input}&type=track`);
+      const response = await fetch(`${ENDPOINT}/v1/search?q=${input}&type=track`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken.access_token}`
+        }
+      });
       const resultsJSON = await response.json();
-      for (let item in resultsJSON.tracks.items) {
-        console.log(item);
-      }
+      const itemResults = resultsJSON.tracks.items;
+      const newSongResults = itemResults.map(track => ({
+        name: track.name,
+        artist: track.artist[0].name,
+        album: track.album.name,
+        key: track.id,
+        albumArt: track.album.images[0].url
+      }));
+
+      setSongResults(newSongResults);
     } catch (error) {
       console.log(error);
     }
@@ -58,6 +72,7 @@ export default function JammmingContainer() {
   return (
     <>
       <SearchComponent input={input} handleInput={onInputHandler} handleSubmit={onSubmitHandler} />
+      {songResults.map(song => <Track key={song.id} trackTitle={song.name} album={song.album} albumArt={song.albumArt} artist={song.artist} />)}
     </>
   )
 }

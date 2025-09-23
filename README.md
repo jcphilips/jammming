@@ -4,12 +4,14 @@ A Spotify Playlist creator based in React.
 
 ## TODO
 
-- [ ] Create base components
+- [x] Create base components
 - [x] Create base container
-- [ ] Create wireframe
-- [ ] Research Spotify API
+- [x] Create wireframe
+- [x] Research Spotify API
 - [x] SearchBar
-- [ ] SearchResults
-- [ ] Playlist
-- [ ] Tracklist
-- [ ] Track
+- [x] SearchResults
+- [x] Playlist
+- [x] Tracklist
+- [x] Track
+- [ ] Replace current authorization method with recommended Authorization Code with PKCE Flow
+- [ ] Get user profile information

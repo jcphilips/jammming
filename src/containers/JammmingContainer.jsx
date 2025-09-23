@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchComponent from '../components/SearchComponent.jsx'
 import Track from "../components/Track.jsx";
 
@@ -46,6 +45,16 @@ export default function JammmingContainer() {
     }
   }
 
+  const onAddToPlaylistHandler = songToAdd => {
+    if (!playlistSongs.includes(songToAdd)) {
+      setPlaylistSongs(prev => [...prev, songToAdd]) // Find song from results and push to playlist
+    }
+  }
+
+  const onRemoveFromPlaylistHandler = songToRemove => {
+    setPlaylistSongs(prev => prev.filter(song => song !== songToRemove));
+  }
+
   // Retreive results from Spotify search
   const retrieveResults = async (input) => {
     try {
@@ -74,11 +83,33 @@ export default function JammmingContainer() {
   return (
     <>
       <SearchComponent input={input} handleInput={onInputHandler} handleSubmit={onSubmitHandler} />
-      <div className="searchResults">
-        {songResults.map(song => <Track key={song.id} trackTitle={song.name} album={song.album} albumArt={song.albumArt} artist={song.artist} />)}
-      </div>
-      <div className="playlist">
-        {playlistSongs.map(song => <Track key={song.id} trackTitle={song.name} album={song.album} albumArt={song.albumArt} artist={song.artist} />)}
+      <div className="trackList">
+        <div className="searchResults flex-column">
+          <span>Search Results</span>
+          {songResults.map(song => (
+            <Track
+              key={song.id}
+              trackTitle={song.name}
+              album={song.album}
+              albumArt={song.albumArt}
+              artist={song.artist}
+              isRemoval={false}
+              onAddOrRemove={() => onAddToPlaylistHandler(song)}
+            />))}
+        </div>
+        <div className="playlist flex-column">
+          <span>Playlist</span>
+          {playlistSongs.map(song => (
+            <Track
+              key={song.id}
+              trackTitle={song.name}
+              album={song.album}
+              albumArt={song.albumArt}
+              artist={song.artist}
+              isRemoval={true}
+              onAddOrRemove={() => onRemoveFromPlaylistHandler(song)}
+            />))}
+        </div>
       </div>
     </>
   )

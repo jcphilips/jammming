@@ -1,0 +1,50 @@
+.track {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  width: 80%;
+  padding: 1em;
+  font-size: 16px;
+}
+
+.albumArt {
+  width: 5em;
+  height: 5em;
+  margin: auto 0;
+}
+
+.trackDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin: auto 0;
+  margin-left: 1em;
+}
+
+.songTitle {
+  font-size: 1em;
+}
+
+.artist {
+  font-size: 0.8em;
+}
+
+.album {
+  font-size: 0.8em;
+}
+
+.playlistButton {
+  border: 1px solid grey;
+  padding: 2px;
+  margin: auto 0;
+  margin-left: auto;
+  width: 2em;
+  height: 2em;
+  border-radius: 100%;
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+}
